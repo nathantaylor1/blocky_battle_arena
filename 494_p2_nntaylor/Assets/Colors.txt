@@ -1,0 +1,4 @@
+Camera Background: 	#000000
+Ground: 		#2e3440
+Walls: 			#4c566a
+Player: 		#d8dee9
