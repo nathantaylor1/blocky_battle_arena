@@ -26,6 +26,7 @@ public class Player_Inventory : MonoBehaviour
                 {
                     _hasPickaxe = true;
                     pbb.enabled = true;
+                    pbb.AddNumBlocksCanBreak(50);
                     col.gameObject.SetActive(false);
                 }
                 else

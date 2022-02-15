@@ -9,13 +9,10 @@ public class Player_BreakBlock : MonoBehaviour
 
     public LayerMask wallLayer;
     public Text numBlocksCanBreakText;
-    private uint numBlocksCanBreak;
+    private uint numBlocksCanBreak = 0;
 
     private void Awake()
     {
-        numBlocksCanBreak = (MapGen.instance.mapWidth * MapGen.instance.mapHeight) / 200;
-        UpdateText();
-        
         _collider2D = GetComponent<Collider2D>();
         _maxRaycastDist = _collider2D.bounds.extents.x + 0.2f;
     }
@@ -42,6 +39,7 @@ public class Player_BreakBlock : MonoBehaviour
 
     private void UpdateText()
     {
+        numBlocksCanBreakText.enabled = true;
         numBlocksCanBreakText.text = numBlocksCanBreak.ToString();
     }
 

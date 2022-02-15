@@ -8,12 +8,15 @@ public class MapGen : MonoBehaviour
     public uint mapWidth = 100, mapHeight = 100;
     [Range(0, 100)] public uint percentIsWall = 50;
     public string seed = "Random";
+    public uint numPickaxes = 12;
 
     private GameObject _tileFloor, _tileWall, _tileUnbreakable;
     private GameObject _player;
     private Vector2 _playerPos;
     [NonSerialized] public int[,] levelMap;
     [NonSerialized] public Random _prng;
+    private Vector2[] pickaxeLocations;
+    private GameObject _pickaxe;
     
     private void Awake()
     {
@@ -22,6 +25,8 @@ public class MapGen : MonoBehaviour
         _tileFloor = Resources.Load<GameObject>("PreFabs/Tiles/Tile_Floor");
         _tileWall = Resources.Load<GameObject>("PreFabs/Tiles/Tile_Wall");
         _player = Resources.Load<GameObject>("PreFabs/Player");
+        pickaxeLocations = new Vector2[12];
+        _pickaxe = Resources.Load<GameObject>("PreFabs/Collectables/PickaxePowerUp");
     }
 
     private void Start()
@@ -63,7 +68,7 @@ public class MapGen : MonoBehaviour
 
         CellularAutomata();
         PlacePlayer();
-        PlacePowerUps();
+        PlacePickAxes();
     }
 
     private bool CellularAutomataCheck(uint x, uint y)
@@ -140,16 +145,37 @@ public class MapGen : MonoBehaviour
         }
     }
 
-    private void PlacePowerUps()
+    private void PlacePickAxes()
     {
-        int halfWidth = (int)mapWidth / 2, halfHeight = (int)mapHeight / 2;
-        
+        for (uint i = 0; i < numPickaxes; ++i)
+        {
+            int x = _prng.Next(6, 94), y = _prng.Next(6, 94);
+            int count = 0, range = 5;
+            while (true)
+            {
+                int possibleX = x + _prng.Next(-range, range), possibleY = y + _prng.Next(-range, range);
+                if (levelMap[possibleX, possibleY] == 0)
+                {
+                    pickaxeLocations[i] = new Vector2(possibleX, possibleY);
+                    break;
+                }
+
+                if (count > range * 2)
+                {
+                    range += 5;
+                    count = 0;
+                    continue;
+                }
+                ++count;
+            }
+        }
     }
 
     private void InstantiateMap()
     {
         InstantiateTiles();
         InstantiatePlayer();
+        InstantiatePickAxes();
     }
 
     private void InstantiateTiles()
@@ -180,4 +206,14 @@ public class MapGen : MonoBehaviour
         GameObject player = Instantiate(_player);
         player.transform.position = _playerPos;
     }
+
+    private void InstantiatePickAxes()
+    {
+        for (uint i = 0; i < numPickaxes; ++i)
+        {
+            GameObject go = Instantiate(_pickaxe);
+            go.transform.position = pickaxeLocations[i];
+        }
+    }
+
 }
