@@ -18,31 +18,33 @@ public class HasHealth : MonoBehaviour
         
         health -= damage;
         StartCoroutine(ChangeColorFromHit());
+        if (health <= 0)
+        {
+            gameObject.SetActive(false);
+        }
 
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Sword") && gameObject.CompareTag("Enemy"))
+        if (col.CompareTag("Sword"))
         {
             TakeDamage(5f);
         }
     }
 
+    private bool _changingRunning = false;
     private IEnumerator ChangeColorFromHit()
     {
-        Color c = _spr.color;
-        _spr.color = (Color.red);
-        yield return new WaitForSeconds(0.2f);
-        _spr.color = c;
-        
-        if (health <= 0f && gameObject.CompareTag("Player"))
+        if (!_changingRunning)
         {
-            // TODO:
-        }
-        else if (health <= 0f && gameObject.CompareTag("Enemy"))
-        {
-            gameObject.SetActive(false);
+            _changingRunning = true;
+            Color c = _spr.color;
+            _spr.color = (Color.red);
+            yield return new WaitForSeconds(0.2f);
+            _spr.color = c;
+            yield return new WaitForSeconds(0.1f);
+            _changingRunning = false;
         }
         
         yield return null;

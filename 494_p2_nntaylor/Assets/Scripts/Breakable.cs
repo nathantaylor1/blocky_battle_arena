@@ -8,8 +8,10 @@ public class Breakable : MonoBehaviour
     {
         GameObject _floorTile = Resources.Load<GameObject>("PreFabs/Tiles/Tile_Floor");
         Transform parentTransform = GetComponentInParent<Transform>();
-        GameObject go = Instantiate(_floorTile, parentTransform);
+        
+        GameObject go = Instantiate(_floorTile);
         go.transform.position = transform.position;
+        
         gameObject.SetActive(false);
     }
 }
