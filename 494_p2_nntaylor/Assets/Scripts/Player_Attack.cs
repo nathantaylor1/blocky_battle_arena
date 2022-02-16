@@ -19,11 +19,9 @@ public class Player_Attack : MonoBehaviour
         lastDirection = Player_MovementController.instance.GetLastDirection();
         if (_swinging)
         {
-            print('x');
             _t += Time.deltaTime;
             float pctg = _t / animTime;
             float angle = Mathf.Lerp(_startAngle, _endAngle, pctg);
-            print(angle);
             swordGO.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
             
             if (_t > animTime)
