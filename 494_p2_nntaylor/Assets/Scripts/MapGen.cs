@@ -36,7 +36,10 @@ public class MapGen : MonoBehaviour
         _pickaxe = Resources.Load<GameObject>("PreFabs/Collectables/PickaxePowerUp");
         _goblin = Resources.Load<GameObject>("PreFabs/Goblin");
         _sword = Resources.Load<GameObject>("PreFabs/Collectables/SwordPowerUp");
-        
+    }
+
+    public void StartMapGen()
+    {
         GenerateMap();
         InstantiateMap();
     }
@@ -182,6 +185,7 @@ public class MapGen : MonoBehaviour
     
     private void PlaceGoblins()
     {
+        GameController.instance.numEnemies = (int)numGoblins;
         for (uint i = 0; i < numGoblins; ++i)
         {
             int x = _prng.Next(6, 94), y = _prng.Next(6, 94);

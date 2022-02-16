@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class Player_BreakBlock : MonoBehaviour
 {
+    public static Player_BreakBlock instance;
     private Vector2 _currentDirection;
     private Collider2D _collider2D;
     private float _maxRaycastDist;
@@ -11,8 +12,18 @@ public class Player_BreakBlock : MonoBehaviour
     public Text numBlocksCanBreakText;
     private uint numBlocksCanBreak = 0;
 
+    public int GetNumBlocksCanBreak()
+    {
+        return (int) numBlocksCanBreak; 
+    }
+    public void SetNumBlocksCanBreak(uint num)
+    {
+        numBlocksCanBreak = num; 
+    }
+
     private void Awake()
     {
+        instance = this;
         _collider2D = GetComponent<Collider2D>();
         _maxRaycastDist = _collider2D.bounds.extents.x + 0.2f;
     }
@@ -33,19 +44,18 @@ public class Player_BreakBlock : MonoBehaviour
             Breakable breakable = hit.transform.GetComponent<Breakable>();
             breakable.BreakThisBlock();
             numBlocksCanBreak--; 
-            UpdateText();
+            UpdatePBBText();
         }
     }
 
-    private void UpdateText()
+    public void UpdatePBBText()
     {
-        numBlocksCanBreakText.enabled = true;
         numBlocksCanBreakText.text = numBlocksCanBreak.ToString();
     }
 
     public void AddNumBlocksCanBreak(int num)
     {
         numBlocksCanBreak += (uint)num;
-        UpdateText();
+        UpdatePBBText();
     }
 }

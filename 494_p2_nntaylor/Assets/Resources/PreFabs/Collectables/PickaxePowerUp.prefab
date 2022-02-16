@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6996465691351093940}
   - component: {fileID: 6996465691351093939}
-  - component: {fileID: 6996465691351093941}
   - component: {fileID: 5122138765351580234}
+  - component: {fileID: 2295142028410796601}
+  - component: {fileID: 4410169015199807750}
   m_Layer: 8
   m_Name: PickaxePowerUp
   m_TagString: PowerUp
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3b3f98560242e2d4a80a536a634c0f6e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.72156864, g: 0.4509804, b: 0.2, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -84,26 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6996465691351093941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6996465691351093938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a25efdd7a96b2b24e9376cdbffbf8990, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisPowerUp: 0
-  lerpTime: 2
-  colors:
-  - {r: 0.7490196, g: 0.38039216, b: 0.41568628, a: 1}
-  - {r: 0.8156863, g: 0.5294118, b: 0.4392157, a: 1}
-  - {r: 0.92156863, g: 0.79607844, b: 0.54509807, a: 1}
-  - {r: 0.6392157, g: 0.74509805, b: 0.54901963, a: 1}
-  - {r: 0.7058824, g: 0.5568628, b: 0.6784314, a: 1}
 --- !u!61 &5122138765351580234
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -130,3 +111,35 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
+--- !u!114 &2295142028410796601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6996465691351093938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19fd53fa5778326418e9ce649e4e3ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 0
+  worth: 0
+--- !u!114 &4410169015199807750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6996465691351093938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc4944c1fd04bbbaa75f8c90acfa6f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerpTime: 2
+  colors:
+  - {r: 0.72156864, g: 0.4509804, b: 0.2, a: 1}
+  - {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 1}
+  - {r: 1, g: 0.84313726, b: 0, a: 1}
+  - {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 1}

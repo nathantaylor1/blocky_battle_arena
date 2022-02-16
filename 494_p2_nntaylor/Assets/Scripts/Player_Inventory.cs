@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 
 public class Player_Inventory : MonoBehaviour
 {
     public static Player_Inventory instance;
     private bool _hasPickaxe = false, _hasSword = false;
 
-    public bool HasPickaxe() { return _hasPickaxe; }
+    public void UpdateHasPickaxe() { _hasPickaxe = true; }
     public bool HasSword() { return _hasSword; }
+
+    public int score = 0;
+    public Text scoreText;
 
     private void Awake()
     {
@@ -19,9 +24,9 @@ public class Player_Inventory : MonoBehaviour
     {
         if (col.gameObject.CompareTag("PowerUp"))
         {
-            PowerUp pup = col.gameObject.GetComponent<PowerUp>();
+            Item pup = col.gameObject.GetComponent<Item>();
 
-            if (pup.thisPowerUp == Items.PickaxePowerUp)
+            if (pup.itemType == Items.PickaxePowerUp)
             {
                 Player_BreakBlock pbb = GetComponent<Player_BreakBlock>();
                 if (!_hasPickaxe)
@@ -37,13 +42,24 @@ public class Player_Inventory : MonoBehaviour
                     col.gameObject.SetActive(false);
                 }
             }
-            else if (pup.thisPowerUp == Items.SwordPowerUp)
+            else if (pup.itemType == Items.SwordPowerUp)
             {
                 _hasSword = true;
                 col.gameObject.SetActive(false);
             }
-            
         }
+        else if (col.gameObject.CompareTag("Coin"))
+        {
+            Item coin = col.gameObject.GetComponent<Item>();
+            score += coin.worth;
+            UpdateScoreText();
+            col.gameObject.SetActive(false);
+        }
+    }
+
+    public void UpdateScoreText()
+    {
+        scoreText.text = score.ToString();
     }
 
 }

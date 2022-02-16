@@ -2,15 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class HasHealth : MonoBehaviour
 {
     public float health = 10f;
     private SpriteRenderer _spr;
 
+    private GameObject _copper, _silver, _gold;
+
     private void Awake()
     {
         _spr = GetComponent<SpriteRenderer>();
+        _copper = Resources.Load<GameObject>("PreFabs/Collectables/CopperCoin");
+        _silver = Resources.Load<GameObject>("PreFabs/Collectables/SilverCoin");
+        _gold = Resources.Load<GameObject>("PreFabs/Collectables/GoldCoin");
     }
 
     public void TakeDamage(float damage)
@@ -20,6 +26,7 @@ public class HasHealth : MonoBehaviour
         StartCoroutine(ChangeColorFromHit());
         if (health <= 0)
         {
+            DropLoot();
             gameObject.SetActive(false);
         }
 
@@ -48,5 +55,27 @@ public class HasHealth : MonoBehaviour
         }
         
         yield return null;
+    }
+    private void DropLoot()
+    {
+        int randNum = Random.Range(0, 100);
+        GameObject go;
+        if (randNum <= 5f)
+        {
+            // TODO: Gold Coin
+            go = Instantiate(_gold);
+        }
+        else if (randNum <= 25f)
+        {
+            // TODO: Silver Coin
+            go = Instantiate(_silver);
+        }
+        else
+        {
+            // TODO: Copper Coin
+            go = Instantiate(_copper);
+        }
+
+        go.transform.position = transform.position;
     }
 }

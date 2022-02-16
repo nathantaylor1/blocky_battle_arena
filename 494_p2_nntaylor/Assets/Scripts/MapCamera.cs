@@ -8,8 +8,8 @@ public class MapCamera : MonoBehaviour
     public static MapCamera instance;
     
     private Camera[] _cameras;
-    private Camera _mainCam;
-    private Camera _mapCam;
+    public Camera _mainCam;
+    public Camera _mapCam;
     private void Awake()
     {
         instance = this;
