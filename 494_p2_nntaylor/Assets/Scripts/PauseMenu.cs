@@ -14,7 +14,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Awake()
     {
-        if (PauseMenu.instance != null) instance = this;
+        instance = this;
     }
 
     private void Update()
@@ -45,6 +45,13 @@ public class PauseMenu : MonoBehaviour
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
         ResumeGame();
+    }
+
+    public void ResetLevel()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+        Time.timeScale = 1f;
     }
 
     public void Quit()

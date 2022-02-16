@@ -27,6 +27,7 @@ public class HasHealth : MonoBehaviour
         if (health <= 0)
         {
             DropLoot();
+            GameController.instance.EnemyKilled();
             gameObject.SetActive(false);
         }
 

@@ -17,7 +17,6 @@ public class MainMenuController : MonoBehaviour
     
     public void StartGame()
     {
-        GrabFromInputField();
         DataCarryOver.GameSeed = seed;
         SceneManager.LoadScene("MainScene");
     }

@@ -10,6 +10,7 @@ public class Player_Health : MonoBehaviour
     public float health = 10f;
     public Text healhText;
     private SpriteRenderer _spr;
+    public GameObject GameOverScreen;
 
     private void Awake()
     {
@@ -26,7 +27,8 @@ public class Player_Health : MonoBehaviour
         StartCoroutine(ChangeColorFromHit());
         if (health <= 0)
         {
-            PauseMenu.instance.NewLevel();
+            Time.timeScale = 0f;
+            GameOverScreen.SetActive(true);
         }
 
     }

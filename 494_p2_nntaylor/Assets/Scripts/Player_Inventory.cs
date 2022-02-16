@@ -14,6 +14,7 @@ public class Player_Inventory : MonoBehaviour
 
     public int score = 0;
     public Text scoreText;
+    public Text scoreText2;
 
     private void Awake()
     {
@@ -60,6 +61,7 @@ public class Player_Inventory : MonoBehaviour
     public void UpdateScoreText()
     {
         scoreText.text = score.ToString();
+        scoreText2.text = score.ToString();
     }
 
 }
