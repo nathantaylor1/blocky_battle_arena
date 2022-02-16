@@ -36,10 +36,7 @@ public class MapGen : MonoBehaviour
         _pickaxe = Resources.Load<GameObject>("PreFabs/Collectables/PickaxePowerUp");
         _goblin = Resources.Load<GameObject>("PreFabs/Goblin");
         _sword = Resources.Load<GameObject>("PreFabs/Collectables/SwordPowerUp");
-    }
-
-    private void Start()
-    {
+        
         GenerateMap();
         InstantiateMap();
     }

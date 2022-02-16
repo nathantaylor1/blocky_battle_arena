@@ -9,6 +9,7 @@ TagManager:
   - MapCamera
   - Enemy
   - Sword
+  - Coin
   layers:
   - Default
   - TransparentFX

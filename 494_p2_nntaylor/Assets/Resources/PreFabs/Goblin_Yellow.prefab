@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 4477213023490100281}
   - component: {fileID: 4477213023490100282}
   - component: {fileID: 4477213023490100280}
-  - component: {fileID: 3953206199284867769}
   m_Layer: 6
-  m_Name: Goblin
+  m_Name: Goblin_Yellow
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.08513926, g: 0.5188679, b: 0, a: 1}
+  m_Color: {r: 0.9056604, g: 0.8338158, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -146,15 +145,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
---- !u!114 &3953206199284867769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4477213023490100277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ece13b399484fc943b40219121b6b1a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
