@@ -11,7 +11,7 @@ public class MapGen : MonoBehaviour
     public uint numPickaxes = 12;
 
     private GameObject _tileFloor, _tileWall, _tileUnbreakable;
-    private GameObject _player;
+    public GameObject player;
     private Vector2 _playerPos;
     [NonSerialized] public int[,] levelMap;
     [NonSerialized] public Random _prng;
@@ -24,7 +24,6 @@ public class MapGen : MonoBehaviour
         _tileUnbreakable = Resources.Load<GameObject>("PreFabs/Tiles/Tile_WallUnbreakable");
         _tileFloor = Resources.Load<GameObject>("PreFabs/Tiles/Tile_Floor");
         _tileWall = Resources.Load<GameObject>("PreFabs/Tiles/Tile_Wall");
-        _player = Resources.Load<GameObject>("PreFabs/Player");
         pickaxeLocations = new Vector2[12];
         _pickaxe = Resources.Load<GameObject>("PreFabs/Collectables/PickaxePowerUp");
     }
@@ -203,7 +202,6 @@ public class MapGen : MonoBehaviour
 
     private void InstantiatePlayer()
     {
-        GameObject player = Instantiate(_player);
         player.transform.position = _playerPos;
     }
 

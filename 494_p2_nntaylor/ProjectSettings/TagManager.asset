@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - PowerUp
   - MapCamera
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Enemies
   - Wall
   - Player
   - 
@@ -55,6 +56,9 @@ TagManager:
     locked: 0
   - name: Collectables
     uniqueID: 1771478629
+    locked: 0
+  - name: Enemies
+    uniqueID: 3492051651
     locked: 0
   - name: Player
     uniqueID: 3354566611
