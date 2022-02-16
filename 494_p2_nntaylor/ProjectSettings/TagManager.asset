@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - PowerUp
+  - MapCamera
   layers:
   - Default
   - TransparentFX

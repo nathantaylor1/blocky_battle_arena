@@ -14,7 +14,6 @@ public class Player_Inventory : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        print("yo");
         if (col.gameObject.CompareTag("PowerUp"))
         {
             PowerUp pup = col.gameObject.GetComponent<PowerUp>();
@@ -26,12 +25,12 @@ public class Player_Inventory : MonoBehaviour
                 {
                     _hasPickaxe = true;
                     pbb.enabled = true;
-                    pbb.AddNumBlocksCanBreak(50);
+                    pbb.AddNumBlocksCanBreak(30);
                     col.gameObject.SetActive(false);
                 }
                 else
                 {
-                    pbb.AddNumBlocksCanBreak(25);
+                    pbb.AddNumBlocksCanBreak(5);
                     col.gameObject.SetActive(false);
                 }
             }
