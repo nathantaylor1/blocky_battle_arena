@@ -7,6 +7,9 @@ public class Player_Inventory : MonoBehaviour
     public static Player_Inventory instance;
     private bool _hasPickaxe = false, _hasSword = false;
 
+    public bool HasPickaxe() { return _hasPickaxe; }
+    public bool HasSword() { return _hasSword; }
+
     private void Awake()
     {
         instance = this;
@@ -36,7 +39,8 @@ public class Player_Inventory : MonoBehaviour
             }
             else if (pup.thisPowerUp == Items.SwordPowerUp)
             {
-                // TODO: Enable Sword
+                _hasSword = true;
+                col.gameObject.SetActive(false);
             }
             
         }

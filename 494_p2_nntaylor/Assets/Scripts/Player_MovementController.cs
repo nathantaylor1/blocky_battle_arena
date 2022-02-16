@@ -10,6 +10,7 @@ public class Player_MovementController : MonoBehaviour
     
     private Rigidbody2D _rigidbody2D;
     private Vector2 currentDirection;
+    private Vector2 lastDirection;
 
     private void Awake()
     {
@@ -27,6 +28,10 @@ public class Player_MovementController : MonoBehaviour
         // Update Rigidbody2D Velocity:
         Vector2 movement = new Vector2(horizontalInput, verticalInput).normalized;
         currentDirection = movement;
+        if (currentDirection.magnitude != 0f && !(horizontalInput != 0 && verticalInput != 0))
+        {
+            lastDirection = currentDirection;
+        }
         _rigidbody2D.velocity = movement * movementSpeed;
     }
     
@@ -38,5 +43,10 @@ public class Player_MovementController : MonoBehaviour
     public Vector2 GetDirection()
     {
         return currentDirection;
+    }
+
+    public Vector2 GetLastDirection()
+    {
+        return lastDirection;
     }
 }
