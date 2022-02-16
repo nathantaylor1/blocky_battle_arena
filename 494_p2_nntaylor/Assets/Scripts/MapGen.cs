@@ -9,6 +9,7 @@ public class MapGen : MonoBehaviour
     [Range(0, 100)] public uint percentIsWall = 50;
     public string seed = "Random";
     public uint numPickaxes = 12;
+    public uint numGoblins = 20;
 
     private GameObject _tileFloor, _tileWall, _tileUnbreakable;
     public GameObject player;
@@ -17,6 +18,10 @@ public class MapGen : MonoBehaviour
     [NonSerialized] public Random _prng;
     private Vector2[] pickaxeLocations;
     private GameObject _pickaxe;
+    private Vector2[] _goblinLocations;
+    private GameObject _goblin;
+    private Vector2 _swordLocation;
+    private GameObject _sword;
     
     private void Awake()
     {
@@ -24,8 +29,13 @@ public class MapGen : MonoBehaviour
         _tileUnbreakable = Resources.Load<GameObject>("PreFabs/Tiles/Tile_WallUnbreakable");
         _tileFloor = Resources.Load<GameObject>("PreFabs/Tiles/Tile_Floor");
         _tileWall = Resources.Load<GameObject>("PreFabs/Tiles/Tile_Wall");
-        pickaxeLocations = new Vector2[12];
+        
+        pickaxeLocations = new Vector2[numPickaxes];
+        _goblinLocations = new Vector2[numGoblins];
+        
         _pickaxe = Resources.Load<GameObject>("PreFabs/Collectables/PickaxePowerUp");
+        _goblin = Resources.Load<GameObject>("PreFabs/Goblin");
+        _sword = Resources.Load<GameObject>("PreFabs/Collectables/SwordPowerUp");
     }
 
     private void Start()
@@ -68,6 +78,7 @@ public class MapGen : MonoBehaviour
         CellularAutomata();
         PlacePlayer();
         PlacePickAxes();
+        PlaceGoblins();
     }
 
     private bool CellularAutomataCheck(uint x, uint y)
@@ -142,6 +153,8 @@ public class MapGen : MonoBehaviour
             }
             ++count;
         }
+        // Place Sword next to player:
+        _swordLocation = new Vector2(_playerPos.x - 1, _playerPos.y);
     }
 
     private void PlacePickAxes()
@@ -169,12 +182,39 @@ public class MapGen : MonoBehaviour
             }
         }
     }
+    
+    private void PlaceGoblins()
+    {
+        for (uint i = 0; i < numGoblins; ++i)
+        {
+            int x = _prng.Next(6, 94), y = _prng.Next(6, 94);
+            int count = 0, range = 5;
+            while (true)
+            {
+                int possibleX = x + _prng.Next(-range, range), possibleY = y + _prng.Next(-range, range);
+                if (levelMap[possibleX, possibleY] == 0)
+                {
+                    _goblinLocations[i] = new Vector2(possibleX, possibleY);
+                    break;
+                }
+
+                if (count > range * 2)
+                {
+                    range += 5;
+                    count = 0;
+                    continue;
+                }
+                ++count;
+            }
+        }
+    }
 
     private void InstantiateMap()
     {
         InstantiateTiles();
         InstantiatePlayer();
         InstantiatePickAxes();
+        InstantiateGoblins();
     }
 
     private void InstantiateTiles()
@@ -203,6 +243,8 @@ public class MapGen : MonoBehaviour
     private void InstantiatePlayer()
     {
         player.transform.position = _playerPos;
+        GameObject sword = Instantiate(_sword);
+        sword.transform.position = _swordLocation;
     }
 
     private void InstantiatePickAxes()
@@ -211,6 +253,15 @@ public class MapGen : MonoBehaviour
         {
             GameObject go = Instantiate(_pickaxe);
             go.transform.position = pickaxeLocations[i];
+        }
+    }
+    
+    private void InstantiateGoblins()
+    {
+        for (uint i = 0; i < numGoblins; ++i)
+        {
+            GameObject go = Instantiate(_goblin);
+            go.transform.position = _goblinLocations[i];
         }
     }
 
