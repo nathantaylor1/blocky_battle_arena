@@ -42,14 +42,15 @@ public class PauseMenu : MonoBehaviour
 
     public void ResetLevel()
     {
+        Time.timeScale = 1f;
         DataCarryOver.ResetData();
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
-        Time.timeScale = 1f;
     }
 
     public void Quit()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
 }

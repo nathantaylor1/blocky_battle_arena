@@ -1,0 +1,10 @@
+p2_gold -- Nathan Taylor (nntaylor)
+A lot of the feedback that I recieved was centered around not understanding the controls of the game. 
+In order to solve this problem, I realized I needed to implement a tutorial level to explain the
+controls and basic mechanics of the game. This caused a problem since the game is randomly generated,
+because there wasnt a good way to setup a specific area to show off the mechanics of the game. To solve
+this issue, I ended up creating a separate tutorial level accessed from the main menu.
+Another important piece of feedback was that the goals of the game werent clear. So i wrote out an 
+"Objectives" section in the tutorial and specifically wrote out the word "Score" next to the score
+counter to help make it more clear. I also created some of my own textures and sprites to help make the
+enemies and breakable blocks stand out more.

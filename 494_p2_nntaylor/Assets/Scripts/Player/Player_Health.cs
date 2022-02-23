@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Player_Health : MonoBehaviour
 {
+    public bool invincible = false;
     public static Player_Health instance;
     public float health = 10f;
     public Text healhText;
@@ -21,7 +22,7 @@ public class Player_Health : MonoBehaviour
     
     public void TakeDamage(float damage)
     {
-        
+        if (invincible) return;
         health -= damage;
         UpdateHPText();
         StartCoroutine(ChangeColorFromHit());

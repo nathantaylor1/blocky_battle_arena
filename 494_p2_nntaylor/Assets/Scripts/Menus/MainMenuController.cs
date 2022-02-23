@@ -19,9 +19,16 @@ public class MainMenuController : MonoBehaviour
             seed = _inputField.text;
         }
     }
+
+    public void StartTutorial()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("TutorialScene");
+    }
     
     public void StartGame()
     {
+        Time.timeScale = 1f;
         STATIC_AudioManager.instance.PlayGameAudio();
         DataCarryOver.GameSeed = seed;
         SceneManager.LoadScene("MainScene");
