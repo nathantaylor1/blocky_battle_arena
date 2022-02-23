@@ -6,9 +6,8 @@ public class MapGen : MonoBehaviour
 {
     public static MapGen instance;
     public uint mapWidth = 100, mapHeight = 100;
-    [Range(0, 100)] public uint percentIsWall = 50;
-    public string seed = "Random";
-    public uint numPickaxes = 12;
+    [Range(0, 100)] public uint percentIsWall = 47;
+    public string seed = "random";
     public uint numGoblins = 20;
 
     private GameObject _tileFloor, _tileWall, _tileUnbreakable;
@@ -16,12 +15,9 @@ public class MapGen : MonoBehaviour
     private Vector2 _playerPos;
     [NonSerialized] public int[,] levelMap;
     [NonSerialized] public Random _prng;
-    private Vector2[] pickaxeLocations;
-    private GameObject _pickaxe;
+    
     private Vector2[] _goblinLocations;
     private GameObject _goblin;
-    private Vector2 _swordLocation;
-    private GameObject _sword;
     
     private void Awake()
     {
@@ -29,13 +25,11 @@ public class MapGen : MonoBehaviour
         _tileUnbreakable = Resources.Load<GameObject>("PreFabs/Tiles/Tile_WallUnbreakable");
         _tileFloor = Resources.Load<GameObject>("PreFabs/Tiles/Tile_Floor");
         _tileWall = Resources.Load<GameObject>("PreFabs/Tiles/Tile_Wall");
-        
-        pickaxeLocations = new Vector2[numPickaxes];
         _goblinLocations = new Vector2[numGoblins];
         
-        _pickaxe = Resources.Load<GameObject>("PreFabs/Collectables/PickaxePowerUp");
-        _goblin = Resources.Load<GameObject>("PreFabs/Goblin");
-        _sword = Resources.Load<GameObject>("PreFabs/Collectables/SwordPowerUp");
+        /*if (STATIC_LevelCount.levelCount == 0)*/
+            // Assets/Resources/PreFabs/Level1_Enemy.prefab
+            _goblin = Resources.Load<GameObject>("PreFabs/Level1_Enemy");
     }
 
     public void StartMapGen()
@@ -48,9 +42,10 @@ public class MapGen : MonoBehaviour
     {
         levelMap = new int[mapWidth, mapHeight];
 
+        seed = seed.ToLower();
         // Check if seed is Default Value, if so RANDOMIZE IT
         // https://answers.unity.com/questions/603000/generating-a-good-random-seed.html
-        if (seed == "Random") seed = DateTime.Now.Ticks.ToString();
+        if (seed == "random"  || seed == "") seed = DateTime.Now.Ticks.ToString();
 
         // Seed PseudoRandom Number Generator (pnrg):
         // https://docs.microsoft.com/en-us/dotnet/api/system.random?view=net-6.0
@@ -77,110 +72,56 @@ public class MapGen : MonoBehaviour
 
         CellularAutomata();
         PlacePlayer();
-        PlacePickAxes();
         PlaceGoblins();
-    }
-
-    private bool CellularAutomataCheck(uint x, uint y)
-    {
-        // returns true if tile at (x, y) should be wall
-        // returns false if tile at (x, y) should be floor
-        uint nearbyWallCount = 0;
-
-        // Check North:
-        if (levelMap[x, y + 1] == 1)
-            nearbyWallCount++;
-
-        // Check East:
-        if (levelMap[x + 1, y] == 1)
-            nearbyWallCount++;
-
-        // Check South:
-        if (levelMap[x, y - 1] == 1)
-            nearbyWallCount++;
-
-        // Check West:
-        if (levelMap[x - 1, y] == 1)
-            nearbyWallCount++;
-
-        if (nearbyWallCount == 2)
-        {
-            // Check Self (for ties):
-            if (levelMap[x, y] == 1)
-                return true;
-            else
-                return false;
-        }
-        else if (nearbyWallCount > 2)
-            return true;
-        else
-            return false;
     }
 
     private void CellularAutomata()
     {
-        // Cellular Automata Check and Adjust:
-        for (uint i = 1; i < mapWidth - 1; ++i)
+        /* 4-5 rule:
+                if it has 3 or fewer adjacent wall squares (counting all 8 cardinal compass points),
+                    the square 'starves' and becomes a floor
+                else if it has greater than 5 adjacent wall squares, the square becomes a wall
+                else leave it as is
+            */
+        for (int x = 1; x < mapWidth - 1; ++x)
         {
-            for (uint j = 1; j < mapHeight - 1; ++j)
+            for (int y = 1; y < mapHeight - 1; ++y)
             {
-                // 1 == wall, 0 == floor
-                levelMap[i, j] = CellularAutomataCheck(i, j) ? 1 : 0;
+                int numWallsNearby = 0;
+
+                for (int i = x - 1; i <= x + 1; ++i)
+                {
+                    for (int j = y + 1; j >= y - 1; --j)
+                    {
+                        if (levelMap[i, j] == 1 || levelMap[i, j] == 2)
+                        {
+                            ++numWallsNearby;
+                        }
+                        /* else do nothing */
+                    }
+                }
+                if (numWallsNearby >= 5) 
+                    levelMap[x, y] = 1;
+                else if (numWallsNearby <= 3)
+                    levelMap[x, y] = 0;
+                /* else do nothing */
             }
         }
     }
 
     private void PlacePlayer()
     {
-        // Place Player
-        int halfWidth = (int)mapWidth / 2, halfHeight = (int)mapHeight / 2;
-        int count = 0;
-        int range = 5;
-        while (true)
-        {
-            int possibleX = halfWidth + _prng.Next(-range, range), possibleY = halfHeight + _prng.Next(-range, range);
-            if (levelMap[possibleX, possibleY] == 0)
-            {
-                _playerPos = new Vector2(possibleX, possibleY);
-                break;
-            }
-
-            if (count > range * 2)
-            {
-                range += 5;
-                count = 0;
-                continue;
-            }
-            ++count;
-        }
-        // Place Sword next to player:
-        _swordLocation = new Vector2(_playerPos.x - 1, _playerPos.y);
-    }
-
-    private void PlacePickAxes()
-    {
-        for (uint i = 0; i < numPickaxes; ++i)
-        {
-            int x = _prng.Next(6, 94), y = _prng.Next(6, 94);
-            int count = 0, range = 5;
-            while (true)
-            {
-                int possibleX = x + _prng.Next(-range, range), possibleY = y + _prng.Next(-range, range);
-                if (levelMap[possibleX, possibleY] == 0)
-                {
-                    pickaxeLocations[i] = new Vector2(possibleX, possibleY);
-                    break;
-                }
-
-                if (count > range * 2)
-                {
-                    range += 5;
-                    count = 0;
-                    continue;
-                }
-                ++count;
-            }
-        }
+        int halfW = (int)mapWidth / 2, halfH = (int)mapHeight / 2;
+        levelMap[halfW-1, halfH-1] = 0;
+        levelMap[halfW-1, halfH]   = 0;
+        levelMap[halfW-1, halfH+1] = 0;
+        levelMap[halfW,   halfH-1] = 0;
+        levelMap[halfW,   halfH]   = 0;
+        levelMap[halfW,   halfH+1] = 0;
+        levelMap[halfW+1, halfH-1] = 0;
+        levelMap[halfW+1, halfH]   = 0;
+        levelMap[halfW+1, halfH+1] = 0;
+        _playerPos = new Vector2(halfW, halfH);
     }
     
     private void PlaceGoblins()
@@ -188,25 +129,15 @@ public class MapGen : MonoBehaviour
         GameController.instance.numEnemies = (int)numGoblins;
         for (uint i = 0; i < numGoblins; ++i)
         {
-            int x = _prng.Next(6, 94), y = _prng.Next(6, 94);
-            int count = 0, range = 5;
+            int x, y;
             while (true)
             {
-                int possibleX = x + _prng.Next(-range, range), possibleY = y + _prng.Next(-range, range);
-                if (levelMap[possibleX, possibleY] == 0)
-                {
-                    _goblinLocations[i] = new Vector2(possibleX, possibleY);
-                    break;
-                }
-
-                if (count > range * 2)
-                {
-                    range += 5;
-                    count = 0;
-                    continue;
-                }
-                ++count;
+                x = _prng.Next(6, (int)mapWidth - 6);
+                y = _prng.Next(6, (int)mapHeight - 6);
+                if (levelMap[x, y] == 0) break;
             }
+
+            _goblinLocations[i] = new Vector2(x, y);
         }
     }
 
@@ -214,7 +145,6 @@ public class MapGen : MonoBehaviour
     {
         InstantiateTiles();
         InstantiatePlayer();
-        InstantiatePickAxes();
         InstantiateGoblins();
     }
 
@@ -244,19 +174,8 @@ public class MapGen : MonoBehaviour
     private void InstantiatePlayer()
     {
         player.transform.position = _playerPos;
-        GameObject sword = Instantiate(_sword);
-        sword.transform.position = _swordLocation;
     }
 
-    private void InstantiatePickAxes()
-    {
-        for (uint i = 0; i < numPickaxes; ++i)
-        {
-            GameObject go = Instantiate(_pickaxe);
-            go.transform.position = pickaxeLocations[i];
-        }
-    }
-    
     private void InstantiateGoblins()
     {
         for (uint i = 0; i < numGoblins; ++i)
@@ -265,5 +184,4 @@ public class MapGen : MonoBehaviour
             go.transform.position = _goblinLocations[i];
         }
     }
-
 }

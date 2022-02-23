@@ -1,6 +1,5 @@
 ﻿public enum Items
 {
-    PickaxePowerUp,
-    SwordPowerUp,
-    Coin
+    Coin,
+    HealthUp
 }

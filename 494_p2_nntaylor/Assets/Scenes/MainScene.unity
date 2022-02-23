@@ -358,6 +358,18 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1158321266}
+    - target: {fileID: 6770660408017491877, guid: 54cb717cededec041b99a42dcd84a850, type: 3}
+      propertyPath: mapWidth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6770660408017491877, guid: 54cb717cededec041b99a42dcd84a850, type: 3}
+      propertyPath: mapHeight
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6770660408017491877, guid: 54cb717cededec041b99a42dcd84a850, type: 3}
+      propertyPath: percentIsWall
+      value: 43
+      objectReference: {fileID: 0}
     - target: {fileID: 6770660408017491878, guid: 54cb717cededec041b99a42dcd84a850, type: 3}
       propertyPath: m_Name
       value: Map

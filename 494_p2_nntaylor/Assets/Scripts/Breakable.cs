@@ -12,6 +12,16 @@ public class Breakable : MonoBehaviour
         GameObject go = Instantiate(_floorTile);
         go.transform.position = transform.position;
         
+        int pct = Random.Range(0, 100);
+        print(pct);
+        if (pct <= 5)
+        {
+            // Assets/Resources/PreFabs/Collectables/HealthUp.prefab
+            GameObject healthDrop = Resources.Load<GameObject>("PreFabs/Collectables/HealthUp");
+            GameObject inst = Instantiate(healthDrop);
+            inst.transform.position = transform.position;
+        }
+        
         gameObject.SetActive(false);
     }
 }
